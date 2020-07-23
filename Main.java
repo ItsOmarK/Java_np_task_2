@@ -20,6 +20,7 @@ public class Main {
                 out.newLine();
 
             }
+            out.write("Finished Copying Data!");
             out.flush();
             out.close();
         }
