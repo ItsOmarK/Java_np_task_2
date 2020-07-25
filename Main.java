@@ -1,28 +1,35 @@
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 
-public class Main {
+import java.io.*;
+public class main {
 
     public static void main(String[] args) {
         try {
-            FileReader file_r = new FileReader("D:\\Edu\\TaskNP\\out\\production\\TaskNP\\names.txt");
-            BufferedReader readNames = new BufferedReader(file_r);
+            FileInputStream file_r = new FileInputStream("names.txt");
+            BufferedInputStream nameBuffer = new BufferedInputStream(file_r);
+            DataInputStream readNames = new DataInputStream(nameBuffer);
 
-            FileInputStream file_r1 = new FileInputStream("D:\\Edu\\TaskNP\\out\\production\\TaskNP\\grades.out");
-            DataInputStream readGrades = new DataInputStream(file_r1);
+            FileInputStream file_r1 = new FileInputStream("grades.out");
+            BufferedInputStream gradesBuffer = new BufferedInputStream(file_r1);
+            DataInputStream readGrades = new DataInputStream(gradesBuffer);
 
-            FileWriter file_w = new FileWriter("list.txt");
-            BufferedWriter out = new BufferedWriter(file_w);
-            String currentLine;
-            while( (currentLine = readNames.readLine()) != null ){
-                out.write(""+readGrades.readDouble()+"  "+ currentLine);
-                out.newLine();
-
+            FileOutputStream file_w = new FileOutputStream("list.txt");
+            BufferedOutputStream outBuffer = new BufferedOutputStream(file_w);
+            DataOutputStream out = new DataOutputStream(outBuffer);
+            String currentLine="";
+            String[] names;
+            int hold;
+            while((hold = readNames.read()) != -1){
+                currentLine+= (char)hold;
             }
-            out.write("Finished Copying Data!");
+            names = currentLine.split("\n");
+            for(String name:names){
+                out.writeChars(readGrades.readDouble()+"   "+name);
+                out.writeChar('\n');
+            }
+
             out.flush();
             out.close();
+            System.out.println("Finished copying data");
         }
         catch (IOException ioe){
             System.err.println ("I/O error - " + ioe);
